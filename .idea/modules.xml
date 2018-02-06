@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../../../py/DataVisnalization/.idea/DataVisnalization.iml" filepath="$PROJECT_DIR$/../../../py/DataVisnalization/.idea/DataVisnalization.iml" />
+      <module fileurl="file://D:\..\py\DataVisnalization\.idea\DataVisnalization.iml" filepath="D:\..\py\DataVisnalization\.idea\DataVisnalization.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/house_price.iml" filepath="$PROJECT_DIR$/.idea/house_price.iml" />
     </modules>
   </component>
 </project>
