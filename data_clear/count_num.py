@@ -42,15 +42,18 @@ class Count(object):
             'tianjin',
             'wuhan',
             'xian']
-        csvfile = file('./data_table/count_city.csv', 'ab')
+        # csvfile = file('./data_table/count_city.csv', 'ab')
+        csvfile = file('./data_table/count_city_table.csv','ab')
         writers = csv.writer(csvfile)
-        writers.writerow(
-            ['city', 'house_num', 'business', 'residence', 'office', 'shops', 'villa', 'dishang', 'sell_out', 'sell',
-             'sell_ing'])
+        # writers.writerow(
+        #     ['city', 'house_num', 'business', 'residence', 'office', 'shops', 'villa', 'dishang', 'sell_out', 'sell',
+        #      'sell_ing'])
+        writers.writerow(['city','business','residence','villa'])
         csvfile.close()
 
     def count_num(self,city_name):
-        csvfile = file('./data_table/count_city.csv', 'ab')
+        # csvfile = file('./data_table/count_city.csv', 'ab')
+        csvfile = file('./data_table/count_city_table.csv', 'ab')
         writers = csv.writer(csvfile)
         self.df = pd.read_csv('./data_table/%s.csv' % city_name, encoding='utf-8')
         #总计
@@ -63,12 +66,15 @@ class Count(object):
         villa = len(self.df[self.df.type == "别墅"])
         dishang = len(self.df[self.df.type == "底商"])
 
+        business_all = business + office + shops + dishang
+
         #出售情况
         sell_out = len(self.df[self.df.state == "售罄"])
         sell = len(self.df[self.df.state == "待售"])
         sell_ing = len(self.df[self.df.state == "在售"])
-        writers.writerow(
-            (province[city_name], house_num, business, residence, office, shops, villa, dishang,sell_out,sell,sell_ing))
+        # writers.writerow(
+        #     (province[city_name], house_num, business, residence, office, shops, villa, dishang,sell_out,sell,sell_ing))
+        writers.writerow((province[city_name],business_all,residence,villa))
         csvfile.close()
 
     def main(self):
