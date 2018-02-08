@@ -11,17 +11,30 @@ mpl.rcParams['axes.unicode_minus'] = False #解决保存图像是负号'-'显示
 
 class CreatePng(object):
     def __init__(self):
-        pass
+        self.tables = [
+            'zhongshan',
+            'chongqing',
+            'changsha',
+            'chengdu',
+            'dalian',
+            'hangzhou',
+            'kunming',
+            'nanjing',
+            'tianjin',
+            'wuhan',
+            'xian']
 
     def create_Scatter(self,tables_name):
-        df = pd.read_csv('./data_table/%s.csv' % tables_name, encoding='utf-8')
+        df = pd.read_csv('./data_table/house_price/house_price_%s.csv' % tables_name, encoding='utf-8')
         # city_names = df['city_name'].values
         # for city in city_names:
         #     print(city)
         # 修改房价信息CSV再做图
-        price = df[df.city_name == 'chongqing']['house_price_list'].values
-        plt.scatter()
-        plt.show()
+        price = df['house_price'].values
+        plt.scatter(price,np.arange(len(price)))
+        plt.savefig('./picture/%s_scatter.png'%tables_name)
+        plt.close()
+        return None
 
     def create_histogram_new_house(self):
         # 各城市新房柱状图
@@ -73,8 +86,10 @@ class CreatePng(object):
 
     def run(self):
         print('create scatter...')
-        # self.create_Scatter('house_price')
-        self.create_histogram_new_house()
+        for table in self.tables:
+            self.create_Scatter(table)
+            print table
+        # self.create_histogram_new_house()
         # self.create_histogram_type()
         # self.drawBarChartPoseRatio()
 
