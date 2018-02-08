@@ -3,16 +3,33 @@ import pandas as pd
 import csv
 import re
 import sys
+import numpy
 import json
 from collections import defaultdict
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
+
+province = {
+    'zhongshan':'中山',
+    'chongqing':'重庆',
+    'changsha':'长沙',
+    'chengdu':'成都',
+    'dalian':'大连',
+    'hangzhou':'杭州',
+    'kunming':'昆明',
+    'nanjing':'南京',
+    'suzhou':'苏州',
+    'tianjin':'天津',
+    'wuhan':'武汉',
+    'xian':'西安'
+}
+
 class ClearMoney(object):
     def __init__(self):
         self.csv_file = open('./data_table/house_price.csv','w')
         self.writers = csv.writer(self.csv_file)
-        self.writers.writerow(['city_name', 'house_price_list','mean'])
+        self.writers.writerow(['city_name','mean','variance','median'])
         self.tables = [
             'zhongshan',
             'chongqing',
@@ -45,13 +62,18 @@ class ClearMoney(object):
         # 楼盘名
         house_name = df.name.values
         house_price_list = self.extract_money(house_price)
+        #　房价平均值
         mean = sum(house_price_list) / len(house_price_list)
-
+        # 房价方差
+        variance = self.get_variance(house_price_list)
+        # 房价中位数
+        median = self.get_median(house_price_list)
+        # 写入房价相关数据
         try:
-            self.writers.writerow([city_name,house_price_list,mean])
+            self.writers.writerow([province[city_name],mean,variance,median])
         except:
             self.csv_file.close()
-        house_price_area = self.extract_money_area(city_name,house_price,house_area)
+        # house_price_area = self.extract_money_area(city_name,house_price,house_area)
 
 
     def extract_money(self,house_price):
@@ -98,6 +120,28 @@ class ClearMoney(object):
 
     def extract_address(self):
         pass
+
+    # 　房价中位数
+    def get_median(self,data):
+        data = sorted(data)
+        size = len(data)
+        if size % 2 == 0:  # 判断列表长度为偶数
+            median = (data[size // 2] + data[size // 2 - 1]) / 2
+            data[0] = median
+        if size % 2 == 1:  # 判断列表长度为奇数
+            median = data[(size - 1) // 2]
+            data[0] = median
+        return data[0]
+
+    def get_variance(self,data):
+        N = len(data)
+        narray = numpy.array(data)
+        sum1 = narray.sum()
+        narray2 = narray * narray
+        sum2 = narray2.sum()
+        mean = sum1 / N
+        var = sum2 / N - mean ** 2
+        return var
 
 if __name__ == '__main__':
     worker = ClearMoney()

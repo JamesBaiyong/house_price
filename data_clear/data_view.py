@@ -84,11 +84,26 @@ class CreatePng(object):
         plt.tight_layout()
         plt.show()
 
+    def create_ze_house(self):
+        df = pd.read_csv('./data_table/house_price.csv',encoding='utf-8')
+        city = df.city_name.values
+        print city
+        mean = df['mean'].values
+        variance = df.variance.values
+        median = df['median'].values
+        x = range(len(city))
+        plt.plot(x, mean, 'ro-',label=u'平均值')
+        plt.plot(x,median,'g--',label=u'中位数')
+        plt.xticks(x, city)
+        plt.legend()
+        plt.show()
+
+
     def run(self):
-        print('create scatter...')
-        for table in self.tables:
-            self.create_Scatter(table)
-            print table
+        # for table in self.tables:
+        #     self.create_Scatter(table)
+        #     print table
+        self.create_ze_house()
         # self.create_histogram_new_house()
         # self.create_histogram_type()
         # self.drawBarChartPoseRatio()
