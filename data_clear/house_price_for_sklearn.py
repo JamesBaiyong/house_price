@@ -3,10 +3,15 @@ import csv
 import re
 import sys
 import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
 class CreateHouseForSklearn(object):
+    """
+    重庆房价信息提取
+    """
     def __init__(self):
         pass
 
@@ -48,8 +53,22 @@ class CreateHouseForSklearn(object):
         csv_file.close()
         return area_list
 
+    def create_scatter(self):
+        df = pd.read_csv('./data_table/chongqing_house.csv',encoding='utf-8')
+        df1 = df[df.type == "住宅"]
+        print len(df1)
+        price = df1['price'].values
+        area = df1['area'].values
+        print df1.sort_values(['price']).tail(10)
+        print df1.sort_values(['area']).tail(10)
+        plt.scatter(area,price,alpha=0.5)
+        plt.show()
+        plt.close()
+        return None
+
     def run(self):
-        self.create_house_price()
+        # self.create_house_price()
+        self.create_scatter()
 
 if __name__ == '__main__':
     worker = CreateHouseForSklearn()
