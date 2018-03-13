@@ -59,7 +59,7 @@ class CreateHouseForSklearn(object):
         print len(df1)
         price = df1['price'].values
         area = df1['area'].values
-        print df1.sort_values(['price']).tail(10)
+        print df1.sort_values(['CompanyPrice']).tail(10)
         print df1.sort_values(['area']).tail(10)
         plt.scatter(area,price,alpha=0.5)
         plt.show()
